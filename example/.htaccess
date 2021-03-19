@@ -1,0 +1,21 @@
+<IfModule mod_env.c>
+  # Production base url: required
+  SetEnv 404_FIXER_PRODUCTION "https://http.cat"
+
+  # Required in case this example is accessed via http://localhost/404_fixer/example
+  # If dev version is not in a sub.path, omit this variable.
+  SetEnv 404_FIXER_DEV_SUBPATH /404_fixer/example
+
+  # Required only if 404_fixer.php is located outside the document root of the project (very unlikely - just for this example).
+  # 99.9% of the cases this variabile will be omitted.
+  SetEnv 404_FIXER_DEV_ROOT example
+</IfModule>
+
+# This example uses Apache's modrewrite since it is a very popular mechanism to handle requests.
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f  
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Note: typically 404_fixer.php will be located in the same directory of this file.
+RewriteRule .* ../404_fixer.php [L]
