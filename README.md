@@ -10,7 +10,7 @@ This script solves 404 errors caused by missing files in local version which ins
 
 ## Usage
 * Copy `404_fixer.php` into the document root of your website;
-* Modify your `.htaccess` to that this scripts will handle 404 caused by missing images/documents;
+* Modify your `.htaccess` to that this script will handle 404 caused by missing images/documents;
 
 ## Example
 Have a look at the `example` folder for a practical use case.
