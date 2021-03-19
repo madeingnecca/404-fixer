@@ -60,7 +60,6 @@ $uri = $_SERVER['REQUEST_URI'];
 // Note: if production version is in sub-path you just need to append it to 404_FIXER_PRODUCTION.
 if ($subpath = config('404_FIXER_DEV_SUBPATH')) {
   $uri = preg_replace('~^' . preg_quote(rtrim($subpath, '/'), '~') . '~', '', $uri);
-  //var_dump($uri);die();
 }
 
 $location = rtrim($production, '/') . $uri;
