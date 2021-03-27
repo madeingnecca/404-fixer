@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Outputs a http 404 response.
+ * Outputs an http 404 response.
  **/
 function show_404($message) {
   header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
@@ -13,7 +13,7 @@ function show_404($message) {
  * Gets a configuration parameter.
  **/
 function config($key, $default = NULL) {
-  // Support environment variables "forwarded" by Apache's ModRewrite, which are prefixed by "REDIRECT_".
+  // Support environment variables "forwarded" by apache's modrewrite, which are prefixed by "REDIRECT_".
   $candidates = array($key, 'REDIRECT_' . $key);
 
   foreach ($candidates as $candidate) {
@@ -26,7 +26,7 @@ function config($key, $default = NULL) {
 }
 
 /**
- * Performs a http request.
+ * Performs an http request.
  **/
 function http_request($location) {
   if (!extension_loaded('curl')) {
@@ -56,15 +56,14 @@ if (!$production = config('404_FIXER_PRODUCTION')) {
 
 $uri = $_SERVER['REQUEST_URI'];
 
-// Is development version in sub-path? Remove this sub-path when resolving the name of the file in production.
-// Note: if production version is in sub-path you just need to append it to 404_FIXER_PRODUCTION.
+// Is development version in a sub-path? Remove this sub-path when resolving the name of the file in production.
 if ($subpath = config('404_FIXER_DEV_SUBPATH')) {
   $uri = preg_replace('~^' . preg_quote(rtrim($subpath, '/'), '~') . '~', '', $uri);
 }
 
 $location = rtrim($production, '/') . $uri;
 
-// Download locally, if asked.
+// Download locally, if it is configured to do so.
 if ($download = config('404_FIXER_DOWNLOAD_FILES', TRUE)) {
   $http_result = http_request($location);
 
@@ -78,7 +77,7 @@ if ($download = config('404_FIXER_DOWNLOAD_FILES', TRUE)) {
   $file = $pwd . $path;
   $dir = dirname($file);
 
-  // Permissions to new directories and downloaded files.
+  // Permissions of new directories and downloaded files.
   $perms = config('404_FIXER_DOWNLOAD_FILES_PERMS', 0777);
   $perms = intval($perms, 8);
 
@@ -94,7 +93,7 @@ if ($download = config('404_FIXER_DOWNLOAD_FILES', TRUE)) {
 
   chmod($file, $perms);
 
-  // Final location is local now.
+  // Final location exists now: reload the current page.
   $location = $_SERVER['REQUEST_URI'];
 }
 
